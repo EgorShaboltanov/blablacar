@@ -52,14 +52,31 @@ Route::get('/register/name', function(){
 
 Route::post('/register/name', [RegisterController::class, 'nameStore']);
 
+Route::get('/register/datebirth', function(){
+    return view('auth.dateBirth');
+})->name('dateBirth');
+
+Route::post('/register/datebirth', [RegisterController::class, 'dateBirthStore']);
+
+Route::get('/register/gender', function(){
+    return view('auth.gender');
+})->name('gender');
+
+Route::post('/register/gender', [RegisterController::class, 'genderStore']);
+
+
 Route::get('/register/password', function(){
     return view('auth.password');
 })->name('password');
 
-Route::post('/register/password', [RegisterController::class, 'passwordStoreAndRegistation']);
+Route::post('/register/password', [RegisterController::class, 'passwordStore']);
 
-Route::get('/register/success', function(){
-    return view('auth.password');
-})->name('password');
+Route::get('/register/phonenumber', function(){
+    return view('auth.numberPhone');
+})->name('numberPhone');
+
+Route::post('/register/phonenumber', [RegisterController::class, 'phoneNumberAndRegistrationStore']);
+
+
 
 Route::get('/register/success', [RegisterController::class, 'successRegistration'])->name('success');

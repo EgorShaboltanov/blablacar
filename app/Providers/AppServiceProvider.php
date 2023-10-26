@@ -23,5 +23,11 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('password_regex', function ($attribute, $value, $parameters, $validator) {
             return preg_match('/^[a-zA-Z0-9]+$/', $value);
         });
+
+
+        Validator::extend('phone_regex', function ($attribute, $value, $parameters, $validator) {
+            return preg_match('/^\+7[0-9]{10}$/', $value);
+        });
+      
     }
 }

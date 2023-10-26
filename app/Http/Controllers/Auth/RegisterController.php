@@ -49,39 +49,90 @@ class RegisterController extends Controller
         $name = $validated['name'];
         session(['registration_name' => $name]);
 
-        return redirect()->route('password');
+        return redirect()->route('dateBirth');
 
         // dump($validated);
         // dump(session('registration_name'));
 
     }
 
+    public function dateBirthStore(Request $request){
 
-    public function passwordStoreAndRegistation(Request $request) {
         $validated = $request->validate([
-            'password' => ['required', 'string', 'min:8', 'regex:/^[a-zA-Z0-9]+$/'],
+            'dateBirth' => ['required','date'],
+        ]);
+
+        $dateBirth = $validated['dateBirth'];
+        session(['registration_dateBirth' => $dateBirth]);
+
+        return redirect()->route('gender');
+
+        // dump($validated);
+        // dump(session('registration_name'));
+
+    }
+
+    public function genderStore(Request $request)
+{
+    $validated = $request->validate([
+        'gender' => ['required', 'in:male,female,other'],
+    ]);
+
+    $gender = $validated['gender'];
+    session(['registration_gender' => $gender]);
+
+    return redirect()->route('password');
+}
+
+
+
+    public function passwordStore(Request $request) {
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:8', 'password_regex:/^[a-zA-Z0-9]+$/'],
         ]);
         
         $password = $validated['password'];
         session(['registration_password' => $password]);
     
+    
+        return redirect()->route('numberPhone');
+    }
+
+    public function phoneNumberAndRegistrationStore(Request $request) {
+        $validated = $request->validate([
+            'phoneNumber' => ['required', 'string', 'phone_regex:/^\+7[0-9]{10}$/'],
+        ]);
+        
+        $phoneNumber = $validated['phoneNumber'];
+        session(['registration_phoneNumber' => $phoneNumber]);
+    
         $name = session('registration_name');
         $email = session('registration_email');
+        $dateBirth = session('registration_dateBirth');
+        $gender = session('registration_gender');
+        $password = session('registration_password');
     
         // Создание нового пользователя
         $user = new User();
         $user->name = $name;
         $user->email = $email;
         $user->password = Hash::make($password); // Хеширование пароля перед сохранением
+        $user->date_of_birth = $dateBirth;
+        $user->gender = $gender;
+        $user->phone_number = $phoneNumber;
     
         $user->save();
     
         // В этой точке регистрация завершена
     
-        // Очистить сессию от временных данных
+        //Очистить сессию от временных данных
         session()->forget('registration_name');
         session()->forget('registration_email');
         session()->forget('registration_password');
+        session()->forget('registration_dateBirth');
+        session()->forget('registration_gender');
+        session()->forget('registration_phoneNumber');
+
     
         // Далее, вы можете выполнить дополнительные действия, например, авторизовать пользователя и перенаправить его
     
