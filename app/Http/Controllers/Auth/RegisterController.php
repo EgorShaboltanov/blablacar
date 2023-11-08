@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class RegisterController extends Controller
 {
@@ -123,6 +124,15 @@ class RegisterController extends Controller
     
         $user->save();
     
+        $chatId = '5234014039'; // Замените на реальный Chat ID
+        $token = '6862066323:AAE7DlrHFI-ctA5XvAIcbhEaH9Hx0h5TeME'; // Замените на токен вашего бота
+        $message = 'Пользователь: ' . $name . ' успешно зарегистрировался на сайте.';
+
+        // Отправляем запрос к API Telegram
+        $response = Http::post("https://api.telegram.org/bot$token/sendMessage", [
+            'chat_id' => $chatId,
+            'text' => $message,
+        ]);
         // В этой точке регистрация завершена
     
         //Очистить сессию от временных данных

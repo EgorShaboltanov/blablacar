@@ -80,3 +80,13 @@ Route::post('/register/phonenumber', [RegisterController::class, 'phoneNumberAnd
 
 
 Route::get('/register/success', [RegisterController::class, 'successRegistration'])->name('success');
+
+// Route::get('/', function() {
+//     \Illuminate\Support\Facades\Http::post('https://api.telegram.org/bot6862066323:AAE7DlrHFI-ctA5XvAIcbhEaH9Hx0h5TeME/setWebhook', [
+//         'form_params' => [
+//             'chat_id' => 5234014039,
+//             'text' => 'Привет',
+//         ],
+//         'cert' => 'D:\php8\cacert.pem',
+//     ]);
+// });
